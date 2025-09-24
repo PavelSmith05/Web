@@ -1,0 +1,340 @@
+/* Цвета и элементы позаимствованы со стилистики calcstroy.ru:
+  - Акцент/hover: #E74C3C
+  - Хедер:       #2C3E50 (темно-синий цвет заголовков)
+  - Фон:         #f8f8f8 (светло-серый фон страницы)
+  - Hover карточек: box-shadow с тенью при наведении
+  - Скругление карточек: border-radius: 6px
+  - Цветовая схема: серый фон + белые карточки (#FFFFFF)
+*/
+
+:root {
+  --color-page-gray: #f8f8f8; /* фон страницы по требованию */
+  --color-header: #2C3E50;
+  --color-input: #D9D9D9;
+  --color-button: #C3C3C3;
+  --color-text: #000000;
+  --radius-6: 6px;
+  --shadow-calc: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Utilities */
+.abs { position: absolute; }
+.box { box-sizing: border-box; }
+.text-12-300 { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; }
+.text-14-300 { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 17px; }
+.text-24-600 { font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 24px; line-height: 29px; }
+
+/* === LIST === */
+.list-frame {
+  position: relative;
+  width: 800px;
+  height: 1000px;
+  background: #f8f8f8; /* фон страницы */
+  margin: 0 auto;
+}
+
+.list-header-bar {
+  position: absolute;
+  width: 800px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+  background: #2C3E50;
+}
+
+.list-search-input {
+  box-sizing: border-box;
+  position: absolute;
+  width: 500px;
+  height: 35px;
+  left: 78px;
+  top: 137px;
+  background: #D9D9D9;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.list-search-input::placeholder {
+  color: #666666;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.list-search-button {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100px;
+  height: 35px;
+  left: 596px;
+  top: 137px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.list-cards-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding: 0px;
+  gap: 50px;
+  isolation: isolate;
+  position: absolute;
+  width: 701px;
+  height: 590px;
+  left: 53px;
+  top: 198px;
+}
+
+/* Cards positioning (keep exact left/top per item) */
+.list-card--1 { width: 200px; height: 270px; flex: none; order: 0; flex-grow: 0; z-index: 0; position: relative; }
+.list-card--2 { width: 200px; height: 270px; flex: none; order: 1; flex-grow: 0; z-index: 1; position: relative; }
+.list-card--3 { width: 200px; height: 270px; flex: none; order: 2; flex-grow: 0; z-index: 2; position: relative; }
+.list-card--4 { width: 200px; height: 270px; flex: none; order: 3; flex-grow: 0; z-index: 3; position: relative; }
+.list-card--5 { width: 200px; height: 270px; flex: none; order: 4; flex-grow: 0; z-index: 4; position: relative; }
+.list-card--6 { width: 200px; height: 270px; flex: none; order: 5; flex-grow: 0; z-index: 5; position: relative; }
+.list-card--7 { width: 200px; height: 270px; flex: none; order: 6; flex-grow: 0; z-index: 6; position: relative; }
+.list-card--8 { width: 200px; height: 270px; flex: none; order: 7; flex-grow: 0; z-index: 7; position: relative; }
+.list-card--9 { width: 200px; height: 270px; flex: none; order: 8; flex-grow: 0; z-index: 8; position: relative; }
+.list-card--10 { width: 200px; height: 270px; flex: none; order: 9; flex-grow: 0; z-index: 9; position: relative; }
+
+/* Universal card styling for dynamic content */
+[class^="list-card--"] {
+  position: relative;
+  width: 200px;
+  height: 270px;
+  flex: none;
+  flex-grow: 0;
+}
+
+[class^="list-card--"] .list-card-bg {
+  box-sizing: border-box;
+  position: absolute;
+  width: 200px;
+  height: 270px;
+  left: 0px;
+  top: 0px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+[class^="list-card--"] .list-card-text {
+  position: absolute;
+  width: 175px;
+  height: 45px;
+  left: 12px;
+  top: 168px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+}
+
+[class^="list-card--"] .list-card-more {
+  box-sizing: border-box;
+  position: absolute;
+  width: 135px;
+  height: 27px;
+  left: 32px;
+  top: 221px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[class^="list-card--"] .list-card-more-text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+}
+
+/* Hover для карточек (лёгкая тень). Не меняем размеры и расположение */
+[class^="list-card--"]:hover .list-card-bg {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Hover для кнопок: фон акцентный #E74C3C и белый текст */
+[class^="list-card--"]:hover .list-card-more,
+.list-search-button:hover,
+.calc-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
+
+/* Текст внутри кнопок при наведении остаётся белым */
+[class^="list-card--"]:hover .list-card-more-text,
+.calc-button:hover .calc-button-text {
+  color: #FFFFFF;
+}
+
+/* Card image positioning (universal for all cards) */
+.list-card-image {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: 25px;
+  top: 7px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+/* Images */
+.list-img--m100 { position: absolute; width: 150px; height: 150px; left: 25px; top: 7px; background: url(м100.png); flex: none; order: 5; flex-grow: 0; z-index: 5; }
+.list-img--m150 { position: absolute; width: 150px; height: 150px; left: 273px; top: 7px; background: url(м150.png); flex: none; order: 6; flex-grow: 0; z-index: 6; }
+.list-img--m200 { position: absolute; width: 150px; height: 150px; left: 523px; top: 7px; background: url(м200.png); flex: none; order: 7; flex-grow: 0; z-index: 7; }
+.list-img--m250 { position: absolute; width: 150px; height: 150px; left: 25px; top: 333px; background: url(м250.png); flex: none; order: 8; flex-grow: 0; z-index: 8; }
+.list-img--m300 { position: absolute; width: 150px; height: 150px; left: 273px; top: 333px; background: url(м300.png); flex: none; order: 9; flex-grow: 0; z-index: 9; }
+
+/* Header row */
+.list-header-row { display: flex; flex-direction: row; align-items: center; padding: 0px; gap: 10px; position: absolute; width: 728px; height: 83px; left: calc(50% - 728px/2 - 0.5px); top: 8px; }
+.list-logo { width: 75px; height: 75px; background-size: cover; background-position: center; background-repeat: no-repeat; flex: none; order: 0; flex-grow: 0; }
+.list-title { width: 599px; height: 50px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 24px; line-height: 29px; color: rgba(255, 255, 255, 0.701961); flex: none; order: 1; flex-grow: 0; margin-top: 10px; margin-left: 20px; }
+
+/* Cart Button */
+.cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-6);
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  margin-left: auto;
+  margin-top: 15px;
+}
+
+.cart-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+  text-decoration: none !important;
+}
+
+.cart-icon {
+  font-size: 20px;
+  color: white;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #E74C3C;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* === DETAIL === */
+.detail-frame { position: relative; width: 800px; height: 1000px; background: #f8f8f8; margin: 0 auto; }
+.detail-card-wrap { position: absolute; width: 500px; height: 250px; left: 150px; top: 150px; }
+.detail-card-bg { box-sizing: border-box; position: absolute; width: 500px; height: 250px; left: 0px; top: 0px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+.detail-card-title { position: absolute; width: 157.99px; height: 15px; left: 251px; top: 21px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.detail-card-image { position: absolute; width: 200px; height: 200px; left: 18px; top: 21px; }
+.detail-card-desc { position: absolute; width: 175px; height: 138px; left: 234px; top: 94px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* === CALC === */
+.calc-frame { position: relative; width: 800px; height: 1000px; background: #F8F8F8; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); margin: 0 auto; }
+
+/* Calc content blocks */
+.calc-card { position: absolute; width: 399px; height: 360px; left: 190px; top: 119px; background: #FFFFFF; border-radius: 6px; }
+.calc-image { position: absolute; width: 342px; height: 171px; left: 219px; top: 130px; background: url(балка.jpg); }
+
+/* Inputs */
+.calc-input--l { box-sizing: border-box; position: absolute; width: 70px; height: 20px; left: 475px; top: 369px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--b { box-sizing: border-box; position: absolute; width: 70px; height: 20px; left: 475px; top: 401px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--h { box-sizing: border-box; position: absolute; width: 70px; height: 18px; left: 475px; top: 337px; background: #FFFFFF; border: 1px solid #000000; }
+
+.calc-input-text--l { width: 100%; height: 100%; border: none; outline: none; padding: 2px 6px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+.calc-input-text--b { width: 100%; height: 100%; border: none; outline: none; padding: 2px 7px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+.calc-input-text--h { width: 100%; height: 100%; border: none; outline: none; padding: 1px 6px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+
+/* Labels */
+.calc-label--h { position: absolute; width: 132px; height: 23px; left: 234px; top: 340px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--b { position: absolute; width: 132px; height: 26px; left: 234px; top: 401px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--l { position: absolute; width: 132px; height: 26px; left: 234px; top: 369px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--sizes { position: absolute; width: 241px; height: 42px; left: 234px; top: 316px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* Button */
+.calc-button { position: absolute; width: 120px; height: 30px; left: 330px; top: 430px; background: #C7C7C7; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.calc-button-text { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* Result group 1 */
+.calc-result--1-wrap { position: absolute; width: 600px; height: 150px; left: 90px; top: 500px; }
+.calc-result--1-bg { box-sizing: border-box; position: absolute; width: 600px; height: 150px; left: 90px; top: 500px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+.calc-result--1-badge { box-sizing: border-box; position: absolute; width: 173px; height: 25px; left: 491px; top: 546px; background: #C3C3C3; border: 1px solid #000000; border-radius: 6px; }
+.calc-result--1-text { position: absolute; width: 110px; height: 13px; left: 500px; top: 551px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--1-value { position: absolute; width: 60px; height: 13px; left: 615px; top: 551px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--1-desc { position: absolute; width: 186px; height: 64px; left: 279px; top: 542px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--1-image { position: absolute; width: 130px; height: 130px; left: 114px; top: 507px; background: url(м100.png); }
+
+/* Result group 2 */
+.calc-result--2-wrap { position: absolute; width: 600px; height: 150px; left: 90px; top: 678px; }
+.calc-result--2-bg { box-sizing: border-box; position: absolute; width: 600px; height: 150px; left: 90px; top: 678px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+.calc-result--2-badge { box-sizing: border-box; position: absolute; width: 173px; height: 25px; left: 491px; top: 724px; background: #C3C3C3; border: 1px solid #000000; border-radius: 6px; }
+.calc-result--2-text { position: absolute; width: 110px; height: 13px; left: 500px; top: 729px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--2-value { position: absolute; width: 60px; height: 13px; left: 615px; top: 729px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--2-desc { position: absolute; width: 186px; height: 64px; left: 279px; top: 720px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--2-image { position: absolute; width: 130px; height: 130px; left: 114px; top: 687px; background: url(м200.png); }
+
+/* --- image rendering (без изменения позиций) --- */
+.list-img--m100,
+.list-img--m150,
+.list-img--m200,
+.list-img--m250,
+.list-img--m300,
+.list-card-image,
+.detail-card-image,
+.calc-image,
+.calc-result--1-image,
+.calc-result--2-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000000;     /* как в макете, тонкая рамка */
+  border-radius: 6px;
+}

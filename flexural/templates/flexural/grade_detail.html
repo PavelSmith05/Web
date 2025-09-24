@@ -1,0 +1,18 @@
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'beam/style.css' %}">
+
+    <div class="detail-frame" data-calc-id="{{ calc.id }}">
+    <div class="list-header-bar"></div>
+
+    <div class="list-header-row">
+        <a href="/"><div class="list-logo" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}logo.png');"></div></a>
+        <div class="list-title">Рассчёт прочности бетонной балки на изгиб</div>
+    </div>
+
+    <div class="detail-card-wrap">
+        <div class="detail-card-bg"></div>
+        <div class="detail-card-title">Марка бетона: {{ grade.name }}</div>
+        <div class="detail-card-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ grade.image_key }}');"></div>
+        <div class="detail-card-desc">{{ grade.description }}</div>
+    </div>
+    </div>

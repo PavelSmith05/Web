@@ -1,0 +1,35 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'beam/style.css' %}">
+
+<div class="list-frame" data-calc-id="{{ calc.id }}" data-cart-count="{{ cart_count }}">
+  <div class="list-header-bar"></div>
+
+  <div class="list-header-row">
+    <a href="/"><div class="list-logo" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}logo.png');"></div></a>
+    <div class="list-title">Рассчёт прочности бетонной балки на изгиб</div>
+    <a href="/calculation/1/" class="cart-button">
+      <div class="cart-icon">🛒</div>
+      <div class="cart-count">{{ cart_count }}</div>
+    </a>
+  </div>
+
+  <form method="get">
+    <input class="list-search-input" type="text" name="q" value="{{ q }}" placeholder="Введите марку бетона...">
+    <button class="list-search-button" type="submit">Найти</button>
+  </form>
+
+  <div class="list-cards-grid">
+    {% for grade in grades %}
+    <div class="list-card--{{ forloop.counter }}">
+      <div class="list-card-bg"></div>
+      <div class="list-card-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ grade.image_key }}');"></div>
+      <div class="list-card-text">Марка бетона: {{ grade.name }}<br>{{ grade.description }}</div>
+      <a class="list-card-more" href="/grade/{{ grade.id }}/">
+        <div class="list-card-more-text">Подробнее</div>
+      </a>
+    </div>
+    {% empty %}
+    <div class="no-results">По вашему запросу ничего не найдено</div>
+    {% endfor %}
+  </div>
+</div>

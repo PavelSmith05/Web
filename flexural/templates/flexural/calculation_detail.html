@@ -1,0 +1,63 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'beam/style.css' %}">
+
+<div class="calc-frame" data-calc-id="{{ calc.id }}">
+  <div class="list-header-bar"></div>
+
+  <div class="list-header-row">
+    <a href="/"><div class="list-logo" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}logo.png');"></div></a>
+    <div class="list-title">Рассчёт прочности бетонной балки на изгиб</div>
+  </div>
+
+  <div class="calc-card"></div>
+  <div class="calc-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}balka.jpg');"></div>
+
+  <div class="calc-label--sizes">Габариты балки (в мм)</div>
+  <div class="calc-label--h">Высота h</div>
+  <div class="calc-label--l">Длина L</div>
+  <div class="calc-label--b">Ширина b</div>
+
+  <div class="calc-input--h"><input type="text" class="calc-input-text--h" placeholder="мм" value=""></div>
+  <div class="calc-input--l"><input type="text" class="calc-input-text--l" placeholder="мм" value=""></div>
+  <div class="calc-input--b"><input type="text" class="calc-input-text--b" placeholder="мм" value=""></div>
+
+  <div class="calc-button"><div class="calc-button-text">Рассчитать</div></div>
+
+  <div class="calc-result--1-wrap"></div>
+  <div class="calc-result--1-bg"></div>
+  <div class="calc-result--1-badge"></div>
+  <div class="calc-result--1-text">Макс. нагрузка:</div>
+  <div class="calc-result--1-value">{{ calc.result_max_load_kN }} кН</div>
+  <div class="calc-result--1-desc">
+    {% with sg=calc.selected_grades.0 %}
+      {% for g in grades %}{% if g.id == sg.grade_id %}{% with grade=g %}
+        Марка бетона: {{ grade.name }}<br>
+        {{ grade.description }}
+      {% endwith %}{% endif %}{% endfor %}
+    {% endwith %}
+  </div>
+  {% with sg=calc.selected_grades.0 %}
+    {% for g in grades %}{% if g.id == sg.grade_id %}
+      <div class="calc-result--1-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ g.image_key }}');"></div>
+    {% endif %}{% endfor %}
+  {% endwith %}
+
+  <div class="calc-result--2-wrap"></div>
+  <div class="calc-result--2-bg"></div>
+  <div class="calc-result--2-badge"></div>
+  <div class="calc-result--2-text">Макс. нагрузка:</div>
+  <div class="calc-result--2-value">{{ calc.result_max_load_kN }} кН</div>
+  <div class="calc-result--2-desc">
+    {% with sg=calc.selected_grades.1 %}
+      {% for g in grades %}{% if g.id == sg.grade_id %}{% with grade=g %}
+        Марка бетона: {{ grade.name }}<br>
+        {{ grade.description }}
+      {% endwith %}{% endif %}{% endfor %}
+    {% endwith %}
+  </div>
+  {% with sg=calc.selected_grades.1 %}
+    {% for g in grades %}{% if g.id == sg.grade_id %}
+      <div class="calc-result--2-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ g.image_key }}');"></div>
+    {% endif %}{% endfor %}
+  {% endwith %}
+</div>
