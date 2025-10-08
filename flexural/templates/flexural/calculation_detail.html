@@ -10,54 +10,67 @@
   </div>
 
   <div class="calc-card"></div>
-  <div class="calc-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}balka.jpg');"></div>
+  <!-- Изображение балки удалено по требованию -->
 
-  <div class="calc-label--sizes">Габариты балки (в мм)</div>
-  <div class="calc-label--h">Высота h</div>
+  <!-- Кнопка удаления справа от блока размеров -->
+  <form method="post" action="{% url 'calc_delete' calc.id %}" class="calc-delete-side-form">
+    {% csrf_token %}
+    <button type="submit" class="calc-delete-side-btn" title="Удалить заявку целиком">Удалить заявку</button>
+  </form>
+
+  <form method="post" class="calc-dimensions-form">
+    {% csrf_token %}
+    <div class="calc-label--sizes">Габариты балки</div>
+    <div class="calc-label--h">Высота h</div>
   <div class="calc-label--l">Длина L</div>
-  <div class="calc-label--b">Ширина b</div>
+    <div class="calc-label--b">Ширина b</div>
 
-  <div class="calc-input--h"><input type="text" class="calc-input-text--h" placeholder="мм" value=""></div>
-  <div class="calc-input--l"><input type="text" class="calc-input-text--l" placeholder="мм" value=""></div>
-  <div class="calc-input--b"><input type="text" class="calc-input-text--b" placeholder="мм" value=""></div>
+    <div class="calc-input--h"><input name="beam_height_mm" type="text" class="calc-input-text--h" placeholder="мм" value="{{ calc.beam_height_mm }}"></div>
+  <div class="calc-input--l"><input name="beam_length_mm" type="text" class="calc-input-text--l" placeholder="мм" value="{{ beam_length_mm }}"></div>
+    <div class="calc-input--b"><input name="beam_width_mm" type="text" class="calc-input-text--b" placeholder="мм" value="{{ calc.beam_width_mm }}"></div>
 
-  <div class="calc-button"><div class="calc-button-text">Рассчитать</div></div>
+    <div class="calc-button"><button type="submit" class="calc-button-text" style="all:unset; display:block; width:100%; height:100%; text-align:center; cursor:pointer;">Рассчитать</button></div>
+  </form>
 
-  <div class="calc-result--1-wrap"></div>
-  <div class="calc-result--1-bg"></div>
-  <div class="calc-result--1-badge"></div>
-  <div class="calc-result--1-text">Макс. нагрузка:</div>
-  <div class="calc-result--1-value">{{ calc.result_max_load_kN }} кН</div>
-  <div class="calc-result--1-desc">
-    {% with sg=calc.selected_grades.0 %}
-      {% for g in grades %}{% if g.id == sg.grade_id %}{% with grade=g %}
-        Марка бетона: {{ grade.name }}<br>
-        {{ grade.description }}
-      {% endwith %}{% endif %}{% endfor %}
-    {% endwith %}
+  {% comment %} Унифицированный вывод всех позиций расчёта {% endcomment %}
+  <div class="calc-results-stack">
+    {% for item in calc.items.all %}
+      <div class="calc-result-card">
+        <div class="calc-result-card-bg"></div>
+        <div class="calc-result-card-badge">
+          <span class="calc-result--badge-text">Макс. нагрузка ({{ item.grade.name }}):</span>
+          <span class="calc-result--badge-value">
+            {% load formatting %}
+            {% with value=per_item_results|dict_get:item.id %}
+              {% if value %}{{ value|floatformat:2 }} кН{% else %}—{% endif %}
+            {% endwith %}
+          </span>
+        </div>
+        <div class="calc-result-card-desc">
+          <div class="calc-result--desc-grid">
+            <div class="desc-col">
+              <div class="desc-label">Марка бетона</div>
+              <div class="desc-value">{{ item.grade.name }}</div>
+            </div>
+            <div class="desc-col">
+              <div class="desc-label">Коэффициент прочности</div>
+              <div class="desc-value">{{ item.grade.compressive_strength_mpa }}</div>
+            </div>
+          </div>
+        </div>
+        {% if item.grade.image_key %}
+          <div class="calc-result-card-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ item.grade.image_key }}');"></div>
+        {% else %}
+          <div class="calc-result-card-image" style="display:flex;align-items:center;justify-content:center;font-size:11px;background:#EEE;border:1px solid #000;">NO IMAGE</div>
+        {% endif %}
+        <form method="post" action="{% url 'calc_item_delete' calc.id item.id %}" class="calc-result-card-delete">
+          {% csrf_token %}
+          <button type="submit" title="Удалить позицию" class="calc-result-card-delete-btn">×</button>
+        </form>
+      </div>
+    {% empty %}
+      <div style="position:absolute; left:60px; top:380px; font-family:Inter; font-size:14px;">Нет выбранных марок бетона</div>
+    {% endfor %}
   </div>
-  {% with sg=calc.selected_grades.0 %}
-    {% for g in grades %}{% if g.id == sg.grade_id %}
-      <div class="calc-result--1-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ g.image_key }}');"></div>
-    {% endif %}{% endfor %}
-  {% endwith %}
 
-  <div class="calc-result--2-wrap"></div>
-  <div class="calc-result--2-bg"></div>
-  <div class="calc-result--2-badge"></div>
-  <div class="calc-result--2-text">Макс. нагрузка:</div>
-  <div class="calc-result--2-value">{{ calc.result_max_load_kN }} кН</div>
-  <div class="calc-result--2-desc">
-    {% with sg=calc.selected_grades.1 %}
-      {% for g in grades %}{% if g.id == sg.grade_id %}{% with grade=g %}
-        Марка бетона: {{ grade.name }}<br>
-        {{ grade.description }}
-      {% endwith %}{% endif %}{% endfor %}
-    {% endwith %}
-  </div>
-  {% with sg=calc.selected_grades.1 %}
-    {% for g in grades %}{% if g.id == sg.grade_id %}
-      <div class="calc-result--2-image" style="background-image: url('{{ MINIO_PUBLIC_BASE_URL }}{{ g.image_key }}');"></div>
-    {% endif %}{% endfor %}
-  {% endwith %}
 </div>

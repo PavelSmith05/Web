@@ -1,0 +1,87 @@
+@startuml
+hide circle
+skinparam linetype ortho
+
+entity "auth_user" as auth_user {
+  *id : INTEGER <<PK>>
+  username : VARCHAR(150) <<U>>
+  password : VARCHAR(128)
+  email : VARCHAR(254)
+  first_name : VARCHAR(150)
+  last_name : VARCHAR(150)
+  is_staff : BOOLEAN
+  is_superuser : BOOLEAN
+  is_active : BOOLEAN
+  last_login : DATETIME
+  date_joined : DATETIME
+}
+
+entity "concrete_grade" as concrete_grade {
+  *id : INTEGER <<PK>>
+  grade_code : VARCHAR(10) <<UNIQUE>>
+  name : VARCHAR(50)
+  description : TEXT
+  compressive_strength_mpa : INTEGER
+  price_per_m3_rub : INTEGER
+  image_key : VARCHAR(100) NULL
+  status : CHAR(10) default 'active'
+  --
+  {index} (grade_code)
+  {index} (status)
+}
+
+entity "flexural_calculation" as calc {
+  *id : INTEGER <<PK>>
+  status : CHAR(10)
+  created_at : DATETIME
+  creator_id : INTEGER <<FK>>
+  formed_at : DATETIME NULL
+  completed_at : DATETIME NULL
+  moderator_id : INTEGER NULL <<FK>>
+  beam_length_m : DECIMAL(6,2)  ' Храним в метрах (UI вводит мм)
+  beam_width_mm : INTEGER
+  beam_height_mm : INTEGER
+  result_max_load_kN : DECIMAL(8,2) NULL
+  --
+  {constraint} UNIQUE (creator_id) WHERE status='draft'
+  {index} (status)
+}
+
+entity "flexural_calculation_item" as item {
+  *id : INTEGER <<PK>>
+  calculation_id : INTEGER <<FK>>
+  grade_id : INTEGER <<FK>>
+  quantity : INTEGER default 1
+  order_index : INTEGER default 1
+  is_primary : BOOLEAN default false
+  comment : VARCHAR(255) default ''
+  --
+  {constraint} UNIQUE (calculation_id, grade_id)
+  {index} (order_index)
+}
+
+' связи (on_delete = PROTECT)
+auth_user ||--o{ calc : creator
+auth_user ||--o{ calc : moderator
+calc ||--o{ item
+concrete_grade ||--o{ item
+
+note top of calc
+  Статусы:
+  draft, deleted, formed,
+  completed, rejected
+  Частичный уникальный:
+  1 draft на пользователя
+end note
+
+note bottom of item
+  Все FK: on_delete=PROTECT
+  quantity логически нормализован (используется как 1)
+end note
+
+note as N1
+  Изображения в MinIO:
+  image_key -> MINIO_PUBLIC_BASE_URL + image_key
+end note
+concrete_grade .. N1
+@enduml

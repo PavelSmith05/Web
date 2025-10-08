@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'beam/style.css' %}">
+<div style="width:400px;margin:120px auto;font-family:Inter, sans-serif;">
+  <h2>Вход</h2>
+  {% if form.errors %}
+    <div style="color:#E74C3C; margin-bottom:12px;">Неверный логин или пароль</div>
+  {% endif %}
+  <form method="post" action="">
+    {% csrf_token %}
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <label>Имя пользователя<br>{{ form.username }}</label>
+      <label>Пароль<br>{{ form.password }}</label>
+      <input type="hidden" name="next" value="{{ next }}" />
+      <button type="submit" style="height:35px;border:1px solid #000;background:#C3C3C3;border-radius:6px;cursor:pointer;">Войти</button>
+    </div>
+  </form>
+</div>

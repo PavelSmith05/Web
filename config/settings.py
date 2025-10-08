@@ -60,11 +60,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database (unused in Lab 1, but leave default)
+# Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "beamdb",
+        "USER": "beamuser",
+        "PASSWORD": "beamsecret",
+        "HOST": "localhost",
+    "PORT": 5433,
     }
 }
 
