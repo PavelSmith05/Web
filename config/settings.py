@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 
     # subject app (our pages/templates/static)
     'flexural',
+    'api',
 ]
 
 # Middleware

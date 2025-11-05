@@ -1,0 +1,560 @@
+/* Цвета и элементы позаимствованы со стилистики calcstroy.ru:
+  - Акцент/hover: #E74C3C
+  - Хедер:       #2C3E50 (темно-синий цвет заголовков)
+  - Фон:         #f8f8f8 (светло-серый фон страницы)
+  - Hover карточек: box-shadow с тенью при наведении
+  - Скругление карточек: border-radius: 6px
+  - Цветовая схема: серый фон + белые карточки (#FFFFFF)
+*/
+
+:root {
+  --color-page-gray: #f8f8f8; /* фон страницы по требованию */
+  --color-header: #2C3E50;
+  --color-input: #D9D9D9;
+  --color-button: #C3C3C3;
+  --color-text: #000000;
+  --radius-6: 6px;
+  --shadow-calc: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Utilities */
+.abs { position: absolute; }
+.box { box-sizing: border-box; }
+.text-12-300 { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; }
+.text-14-300 { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 14px; line-height: 17px; }
+.text-24-600 { font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 24px; line-height: 29px; }
+
+/* === LIST === */
+.list-frame {
+  position: relative;
+  width: 800px;
+  height: 1000px;
+  background: #f8f8f8; /* фон страницы */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+}
+
+.list-header-bar {
+  position: absolute;
+  width: 800px;
+  height: 100px;
+  left: 0px;
+  top: 0px;
+  background: #2C3E50;
+}
+
+ .list-search-input {
+  box-sizing: border-box;
+  position: absolute;
+  width: 500px;
+  height: 35px;
+  left: 125px; /* сдвиг блока на 15px левее */
+  top: 137px;
+  background: #D9D9D9;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.list-search-input::placeholder {
+  color: #666666;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+ .list-search-button {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100px;
+  height: 35px;
+  left: 643px; /* синхронный сдвиг на 15px */
+  top: 137px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.list-cards-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding: 0px;
+  gap: 50px;
+  isolation: isolate;
+  position: absolute;
+  width: 701px;
+  height: 590px;
+  left: 53px;
+  top: 250px;
+}
+
+/* Cards positioning (keep exact left/top per item) */
+.list-card--1 { width: 200px; height: 270px; flex: none; order: 0; flex-grow: 0; z-index: 0; position: relative; }
+.list-card--2 { width: 200px; height: 270px; flex: none; order: 1; flex-grow: 0; z-index: 1; position: relative; }
+.list-card--3 { width: 200px; height: 270px; flex: none; order: 2; flex-grow: 0; z-index: 2; position: relative; }
+.list-card--4 { width: 200px; height: 270px; flex: none; order: 3; flex-grow: 0; z-index: 3; position: relative; }
+.list-card--5 { width: 200px; height: 270px; flex: none; order: 4; flex-grow: 0; z-index: 4; position: relative; }
+.list-card--6 { width: 200px; height: 270px; flex: none; order: 5; flex-grow: 0; z-index: 5; position: relative; }
+.list-card--7 { width: 200px; height: 270px; flex: none; order: 6; flex-grow: 0; z-index: 6; position: relative; }
+.list-card--8 { width: 200px; height: 270px; flex: none; order: 7; flex-grow: 0; z-index: 7; position: relative; }
+.list-card--9 { width: 200px; height: 270px; flex: none; order: 8; flex-grow: 0; z-index: 8; position: relative; }
+.list-card--10 { width: 200px; height: 270px; flex: none; order: 9; flex-grow: 0; z-index: 9; position: relative; }
+
+/* Universal card styling for dynamic content */
+[class^="list-card--"] {
+  position: relative;
+  width: 200px;
+  height: 270px;
+  flex: none;
+  flex-grow: 0;
+}
+
+[class^="list-card--"] .list-card-bg {
+  box-sizing: border-box;
+  position: absolute;
+  width: 200px;
+  height: 270px;
+  left: 0px;
+  top: 0px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+[class^="list-card--"] .list-card-text {
+  position: absolute;
+  width: 175px;
+  height: 60px;
+  left: 12px;
+  top: 162px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  overflow: hidden;
+}
+
+/* New dual button actions inside card */
+.list-card-actions {
+  position: absolute;
+  left: 12px;
+  top: 228px;
+  width: 176px; /* fits inside 200 - 2*(12px) approximate */
+  height: 27px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.list-card-btn {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  height: 27px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.list-card-btn:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
+
+.list-card-btn:hover span, .list-card-btn:hover a { color:#FFFFFF; }
+
+/* Hover для карточек (лёгкая тень). Не меняем размеры и расположение */
+[class^="list-card--"]:hover .list-card-bg {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Hover для кнопок: фон акцентный #E74C3C и белый текст */
+[class^="list-card--"]:hover .list-card-more,
+.list-search-button:hover,
+.calc-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
+
+/* Текст внутри кнопок при наведении остаётся белым */
+[class^="list-card--"]:hover .list-card-more-text,
+.calc-button:hover .calc-button-text {
+  color: #FFFFFF;
+}
+
+/* Card image positioning (universal for all cards) */
+.list-card-image {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: 25px;
+  top: 7px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+/* Images */
+.list-img--m100 { position: absolute; width: 150px; height: 150px; left: 25px; top: 7px; background: url(м100.png); flex: none; order: 5; flex-grow: 0; z-index: 5; }
+.list-img--m150 { position: absolute; width: 150px; height: 150px; left: 273px; top: 7px; background: url(м150.png); flex: none; order: 6; flex-grow: 0; z-index: 6; }
+.list-img--m200 { position: absolute; width: 150px; height: 150px; left: 523px; top: 7px; background: url(м200.png); flex: none; order: 7; flex-grow: 0; z-index: 7; }
+.list-img--m250 { position: absolute; width: 150px; height: 150px; left: 25px; top: 333px; background: url(м250.png); flex: none; order: 8; flex-grow: 0; z-index: 8; }
+.list-img--m300 { position: absolute; width: 150px; height: 150px; left: 273px; top: 333px; background: url(м300.png); flex: none; order: 9; flex-grow: 0; z-index: 9; }
+
+/* Header row */
+.list-header-row { display: flex; flex-direction: row; align-items: center; padding: 0px; gap: 10px; position: absolute; width: 728px; height: 83px; left: calc(50% - 728px/2 - 0.5px); top: 8px; }
+.list-logo { width: 75px; height: 75px; background-size: cover; background-position: center; background-repeat: no-repeat; flex: none; order: 0; flex-grow: 0; }
+.list-title { width: 599px; height: 50px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 24px; line-height: 29px; color: rgba(255, 255, 255, 0.701961); flex: none; order: 1; flex-grow: 0; margin-top: 10px; margin-left: 20px; }
+
+/* Cart Button */
+.cart-button {
+  position: absolute; /* теперь отдельно слева от поиска */
+  top: 137px; /* выровнено по вертикали c поиском */
+  left: 55px; /* сдвинуто левее на 15px */
+  width: 50px;
+  height: 35px; /* такая же высота как у поля */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF; /* не сливается с фоном */
+  border: 1px solid #000000; /* контрастная рамка */
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  text-decoration: none !important;
+  transition: background .2s ease, transform .2s ease;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.cart-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  transform: translateY(-2px);
+}
+
+.cart-icon { font-size: 18px; color: #000000; }
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #E74C3C;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* === DETAIL === */
+.detail-frame { position: relative; width: 800px; height: 1000px; background: #f8f8f8; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); margin: 0 auto; }
+.detail-card-wrap { position: absolute; width: 500px; height: 250px; left: 150px; top: 150px; }
+.detail-card-bg { box-sizing: border-box; position: absolute; width: 500px; height: 250px; left: 0px; top: 0px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+.detail-card-title { position: absolute; width: 157.99px; height: 15px; left: 251px; top: 21px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.detail-card-image { position: absolute; width: 200px; height: 200px; left: 18px; top: 21px; }
+.detail-card-desc { position: absolute; width: 175px; height: 138px; left: 234px; top: 94px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* === CALC === */
+.calc-frame { position: relative; width: 800px; min-height: 1400px; background: #F8F8F8; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); margin: 0 auto; }
+
+/* Calc content blocks */
+.calc-card { position: absolute; width: 400px; height: 200px; left: 200px; top: 120px; background: #FFFFFF; border-radius: 6px; }
+.calc-image { display: none; }
+
+/* Inputs */
+.calc-input--h { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 430px; top: 176px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--l { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 430px; top: 204px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--b { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 430px; top: 232px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--h { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 470px; top: 176px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--l { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 470px; top: 204px; background: #FFFFFF; border: 1px solid #000000; }
+.calc-input--b { box-sizing: border-box; position: absolute; width: 80px; height: 22px; left: 470px; top: 232px; background: #FFFFFF; border: 1px solid #000000; }
+
+.calc-input-text--l { width: 100%; height: 100%; border: none; outline: none; padding: 2px 6px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+.calc-input-text--b { width: 100%; height: 100%; border: none; outline: none; padding: 2px 7px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+.calc-input-text--h { width: 100%; height: 100%; border: none; outline: none; padding: 1px 6px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; background: transparent; }
+
+/* Labels */
+.calc-label--sizes { position: absolute; width: 400px; height: 20px; left: 200px; top: 134px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 13px; line-height: 16px; color: #000000; text-align: center; }
+.calc-label--h { position: absolute; width: 140px; height: 20px; left: 215px; top: 178px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--l { position: absolute; width: 140px; height: 20px; left: 215px; top: 206px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--b { position: absolute; width: 140px; height: 20px; left: 215px; top: 234px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--h { position: absolute; width: 140px; height: 20px; left: 255px; top: 178px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--l { position: absolute; width: 140px; height: 20px; left: 255px; top: 206px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-label--b { position: absolute; width: 140px; height: 20px; left: 255px; top: 234px; font-family: 'Inter'; font-style: normal; font-weight: 600; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* Button */
+.calc-button { position: absolute; width: 140px; height: 30px; left: 330px; top: 268px; background: #C7C7C7; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.calc-button-text { font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+
+/* Result group 1 */
+.calc-result--1-wrap { position: absolute; width: 700px; height: 150px; left: 50px; top: 370px; }
+.calc-result--1-bg { box-sizing: border-box; position: absolute; width: 700px; height: 150px; left: 50px; top: 370px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+/* badge вправо */
+.calc-result--1-badge { box-sizing: border-box; position: absolute; height: 30px; right: 60px; top: 420px; background: #C3C3C3; border: 1px solid #000000; border-radius: 6px; display: flex; align-items: center; gap: 6px; padding: 0 14px; }
+/* старые отдельные элементы больше не используются */
+.calc-result--1-text, .calc-result--1-value { display: none; }
+/* описание между картинкой и бейджем */
+.calc-result--1-desc { position: absolute; width: 320px; left: 250px; top: 405px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--desc-grid { display: flex; flex-direction: row; gap: 48px; align-items: flex-start; }
+.desc-col { display: flex; flex-direction: column; }
+.desc-label { font-weight: 600; margin-bottom: 4px; }
+.desc-value { font-weight: 300; }
+.calc-result--desc-grid .desc-label { font-weight: 600; margin-bottom: 4px; }
+.calc-result--desc-grid .desc-value { font-weight: 300; }
+.calc-result--1-image { position: absolute; width: 130px; height: 130px; left: 60px; top: 380px; background: url(м100.png); }
+
+/* Result group 2 */
+.calc-result--2-wrap { position: absolute; width: 700px; height: 150px; left: 50px; top: 540px; }
+.calc-result--2-bg { box-sizing: border-box; position: absolute; width: 700px; height: 150px; left: 50px; top: 540px; background: #FFFFFF; border: 1px solid #000000; border-radius: 6px; }
+.calc-result--2-badge { box-sizing: border-box; position: absolute; height: 30px; right: 60px; top: 590px; background: #C3C3C3; border: 1px solid #000000; border-radius: 6px; display: flex; align-items: center; gap: 6px; padding: 0 14px; }
+.calc-result--2-text, .calc-result--2-value { display: none; }
+.calc-result--2-desc { position: absolute; width: 320px; left: 250px; top: 575px; font-family: 'Inter'; font-style: normal; font-weight: 300; font-size: 12px; line-height: 15px; color: #000000; }
+.calc-result--2-image { position: absolute; width: 130px; height: 130px; left: 60px; top: 550px; background: url(м100.png); }
+
+/* --- image rendering (без изменения позиций) --- */
+.list-img--m100,
+.list-img--m150,
+.list-img--m200,
+.list-img--m250,
+.list-img--m300,
+.list-card-image,
+.detail-card-image,
+.calc-image,
+.calc-result--1-image,
+.calc-result--2-image,
+.calc-result-card-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #000000;     /* как в макете, тонкая рамка */
+  border-radius: 6px;
+}
+
+/* --- Alignment fix for load badges --- */
+.calc-result--1-badge, .calc-result--2-badge { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; font-family: 'Inter'; font-style: normal; font-size: 12px; line-height: 15px; }
+.calc-result--badge-text { font-weight: 300; }
+.calc-result--badge-value { font-weight: 600; }
+
+/* Unified result cards stack */
+.calc-results-stack { position:absolute; left:50px; top:360px; width:700px; display:flex; flex-direction:column; gap:20px; }
+.calc-result-card { position:relative; width:700px; height:150px; }
+.calc-result-card-bg { box-sizing:border-box; position:absolute; inset:0; background:#FFFFFF; border:1px solid #000; border-radius:6px; }
+.calc-result-card-image { position:absolute; left:10px; top:10px; width:130px; height:130px; }
+.calc-result-card-desc { position:absolute; left:170px; top:60px; width:420px; font-family:'Inter'; font-size:12px; line-height:15px; }
+.calc-result-card-badge { position:absolute; right:20px; top:60px; background:#C3C3C3; border:1px solid #000; border-radius:6px; height:30px; display:flex; align-items:center; gap:6px; padding:0 12px; font-family:'Inter'; font-size:12px; }
+.calc-result-card-delete { position:absolute; top:8px; right:8px; }
+.calc-result-card-delete-btn { all:unset; width:22px; height:22px; background:#E74C3C; color:#FFF; border-radius:4px; font-weight:600; text-align:center; line-height:22px; cursor:pointer; }
+.calc-result-card-delete-btn:hover { filter:brightness(0.9); }
+
+/* Delete calculation button at bottom */
+/* Side delete button (right of beam size block) */
+.calc-delete-side-form { position:absolute; left:620px; top:160px; }
+.calc-delete-side-btn { all:unset; background:#C3C3C3; border:1px solid #000; border-radius:6px; padding:8px 18px; font-family:'Inter'; font-size:12px; cursor:pointer; }
+.calc-delete-side-btn:hover { background:#E74C3C; color:#FFF; border-color:#E74C3C; }
+
+/* === SPA specific additions === */
+.list-logo-link { text-decoration: none; }
+
+.list-filters-form { position: relative; }
+
+.list-advanced-filters {
+  position: absolute;
+  left: 125px;
+  top: 185px;
+  width: 600px;
+  min-height: 50px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: 18px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter';
+}
+
+.filter-group { display: flex; flex-direction: column; gap: 8px; }
+.filter-label { font-weight: 600; font-size: 12px; color: #000000; }
+
+.filter-input-row { display: flex; gap: 8px; }
+.filter-input {
+  box-sizing: border-box;
+  width: 110px;
+  height: 35px;
+  background: #D9D9D9;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: 'Inter';
+  font-size: 14px;
+  color: #000000;
+}
+
+.list-reset-button {
+  box-sizing: border-box;
+  height: 35px;
+  padding: 0 14px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  font-family: 'Inter';
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.list-reset-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
+
+.list-status {
+  position: absolute;
+  left: 53px;
+  top: 195px;
+  width: 701px;
+  min-height: 32px;
+  border-radius: 6px;
+  border: 1px solid #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter';
+  font-size: 12px;
+  padding: 6px 12px;
+  background: #FFFFFF;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 4;
+}
+
+.list-status--loading { background: #D9D9D9; }
+.list-status--error { background: #FDECEA; border-color: #E74C3C; color: #8C1F17; }
+.list-status--warning { background: #FFF5E6; border-color: #E6A700; color: #7A4E00; }
+
+.detail-card-btn {
+  all: unset;
+  position: absolute;
+  left: 250px;
+  bottom: 20px;
+  width: 160px;
+  height: 30px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  text-align: center;
+  font-family: 'Inter';
+  font-size: 12px;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.detail-card-btn:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
+
+.home-frame {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  background: #f8f8f8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+}
+
+.home-card {
+  position: absolute;
+  left: 80px;
+  top: 160px;
+  width: 640px;
+  min-height: 300px;
+  background: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.home-card-logo {
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+.home-card-content { flex: 1; font-family: 'Inter'; color: #000000; }
+.home-card-title { margin: 0 0 12px; font-size: 24px; font-weight: 600; }
+.home-card-text { font-size: 14px; font-weight: 300; line-height: 20px; margin: 0 0 12px; }
+.home-card-list { margin: 0 0 20px; padding-left: 18px; font-size: 14px; font-weight: 300; line-height: 20px; }
+
+.home-next-button {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 10px 40px;
+  background: #C3C3C3;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-next-button:hover {
+  background: #E74C3C;
+  border-color: #E74C3C;
+  color: #FFFFFF;
+}
