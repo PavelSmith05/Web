@@ -84,3 +84,107 @@ def cart_summary(request):
     return JsonResponse({"id": -1, "count": 0})
 
 
+# ============================================================================
+# Authentication API endpoints (для тестирования в Insomnia)
+# ============================================================================
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+import json
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_login(request):
+    """
+    POST /api/auth/login/
+    Body: {"username": "...", "password": "..."}
+    """
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+    
+    username = data.get("username")
+    password = data.get("password")
+    
+    if not username or not password:
+        return JsonResponse({"error": "Username and password required"}, status=400)
+    
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return JsonResponse({
+            "success": True,
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+            }
+        })
+    else:
+        return JsonResponse({"error": "Invalid credentials"}, status=401)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_logout(request):
+    """
+    POST /api/auth/logout/
+    """
+    logout(request)
+    return JsonResponse({"success": True})
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def api_register(request):
+    """
+    POST /api/auth/register/
+    Body: {"username": "...", "password": "...", "email": "..."}
+    """
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+    
+    username = data.get("username")
+    password = data.get("password")
+    email = data.get("email", "")
+    
+    if not username or not password:
+        return JsonResponse({"error": "Username and password required"}, status=400)
+    
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({"error": "Username already exists"}, status=400)
+    
+    user = User.objects.create_user(username=username, password=password, email=email)
+    login(request, user)
+    
+    return JsonResponse({
+        "success": True,
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+        }
+    }, status=201)
+
+
+@require_GET
+def api_user_me(request):
+    """
+    GET /api/auth/me/
+    """
+    if request.user.is_authenticated:
+        return JsonResponse({
+            "id": request.user.id,
+            "username": request.user.username,
+            "email": request.user.email,
+        })
+    else:
+        return JsonResponse({"error": "Not authenticated"}, status=401)
+
+
