@@ -1,0 +1,46 @@
+# Django
+*.pyc
+*.pyo
+__pycache__/
+db.sqlite3
+*.log
+migrations/__pycache__/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# MinIO data (содержит большие файлы изображений)
+minio-data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Django static files (если собираются)
+staticfiles/
+static_root/
+
+# Media files (если не используем MinIO)
+media/
+
+# Environment variables
+.env
+.env.local
+
+# Python
+*.egg-info/
+dist/
+build/
+
+# Coverage
+.coverage
+htmlcov/
